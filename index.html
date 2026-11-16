@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Data Motor">
+<meta name="theme-color" content="#10224f">
+<meta name="color-scheme" content="light dark">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" id="ic" href="data:image/png;base64,iVBORw0KGgo=">
+<title>Data Penjualan Motor</title>
+<style>
+:root{--bg:#f3f4f7;--rw:#fff;--tx:#141824;--mu:#6a7285;--ln:#e1e4ea;--pr:#1d4ed8;--ok:#15803d;--no:#b91c1c;--in:#eef0f4;--hd:#10224f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0b1020;--rw:#141a2e;--tx:#e8ebf3;--mu:#98a1b8;--ln:#252d45;--pr:#5b8cff;--ok:#3ecf6e;--no:#ff6b6b;--in:#0b1020;--hd:#0a1330}}
+:root[data-theme=dark]{--bg:#0b1020;--rw:#141a2e;--tx:#e8ebf3;--mu:#98a1b8;--ln:#252d45;--pr:#5b8cff;--ok:#3ecf6e;--no:#ff6b6b;--in:#0b1020;--hd:#0a1330}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.35 system-ui,-apple-system,sans-serif;padding-bottom:110px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--hd);z-index:10}
+button{font:inherit;color:inherit;cursor:pointer}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--hd);color:#fff;padding:8px 12px 10px}
+.mo{display:flex;gap:6px}
+.mo button,.mo input{height:44px;border:0;border-radius:10px;background:rgba(255,255,255,.16);color:#fff;font-weight:600}
+.mo button{width:44px;font-size:22px}
+.mo input{flex:1;min-width:0;text-align:center;font-size:17px;font-family:inherit}
+.tb{display:flex;gap:6px;margin-top:8px}.tb:empty{display:none}
+.tb button{flex:1;height:42px;border:0;border-radius:10px;background:rgba(255,255,255,.16);color:#fff;font-weight:700;letter-spacing:.04em}
+.tb .on{background:#fff;color:var(--hd)}
+.tb.s button{height:38px;font-size:15px}
+.tb.s .on{background:var(--ok);color:#fff}.tb.s [data-s=REJECT].on{background:var(--no)}
+main{padding:12px}
+.cap{font-size:13px;color:var(--mu);margin:0 2px 6px}
+.sm{display:flex;background:var(--rw);border:1px solid var(--ln);border-radius:12px;overflow:hidden}
+.sm div{flex:1;text-align:center;padding:10px 4px;border-left:1px solid var(--ln)}.sm div:first-child{border-left:0}
+.sm b{display:block;font-size:26px;font-variant-numeric:tabular-nums}.sm small{color:var(--mu);font-size:13px}
+#q{width:100%;height:46px;margin:12px 0;padding:0 14px;border:1px solid var(--ln);border-radius:12px;background:var(--rw);color:var(--tx);font-size:16px}
+#list:has(.c){border:1px solid var(--ln);border-radius:12px;overflow:hidden}
+.c{background:var(--rw);border-left:4px solid var(--pr);border-bottom:1px solid var(--ln);padding:12px 14px;cursor:pointer}
+.c:last-child{border-bottom:0}.c.ACC{border-left-color:var(--ok)}.c.REJECT{border-left-color:var(--no)}
+.h{display:flex;justify-content:space-between;gap:8px}.h b{font-size:17px}.h span{color:var(--mu);font-size:14px;white-space:nowrap}
+.ty{font-weight:600;color:var(--pr);margin:2px 0 6px}
+.r{display:flex;justify-content:space-between;gap:12px;font-size:15px;padding:2px 0}
+.r small{color:var(--mu);font-size:14px;flex:none}.r span{text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.em{text-align:center;color:var(--mu);padding:32px 12px}
+#fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:62px;height:62px;border-radius:50%;border:0;background:var(--pr);color:#fff;font-size:36px;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.35);z-index:8}
+#mod{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:20;display:flex;align-items:flex-end}#mod[hidden]{display:none}
+.sh{background:var(--rw);width:100%;max-height:92%;overflow:auto;border-radius:18px 18px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.sh h3{margin:0 0 4px;font-size:20px}.sh p{margin:8px 0}
+.sh label{display:block;margin-top:12px;font-size:14px;color:var(--mu)}
+.sh input,.sh select,.sh textarea{display:block;width:100%;min-height:48px;margin-top:4px;padding:10px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--in);color:var(--tx);font:16px system-ui,-apple-system,sans-serif}
+.bt{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.bt button{flex:1 1 40%;min-height:50px;border:1px solid var(--ln);border-radius:12px;background:var(--in);color:var(--tx);font-weight:600;padding:0 12px}
+.bt .p{flex-basis:100%;background:var(--pr);border-color:var(--pr);color:#fff}.bt .d{color:var(--no)}.bt.col button{flex-basis:100%}
+#ts{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));background:#222;color:#fff;padding:10px 16px;border-radius:20px;z-index:30;font-size:15px;max-width:90%;text-align:center}#ts[hidden]{display:none}
+.fr{display:flex;align-items:center;gap:10px;margin-top:10px;padding:8px;border:1px solid var(--ln);border-radius:10px;background:var(--in)}
+.fr img{width:56px;height:42px;object-fit:cover;border-radius:6px;flex:none}
+.fr div{flex:1;min-width:0}.fr b{display:block;font-size:15px}.fr small{color:var(--mu);font-size:13px}
+.fr button{min-height:44px;padding:0 14px;border:1px solid var(--ln);border-radius:10px;background:var(--rw);color:var(--tx);font-weight:600}.fr button.d{color:var(--no)}
+.sh h4{margin:18px 0 0;font-size:16px}.big{display:block;width:100%;border-radius:10px;margin-top:8px}
+.bt .w{flex-basis:100%;background:var(--ok);border-color:var(--ok);color:#fff}
+</style>
+</head>
+<body>
+<header>
+<div class="mo"><button data-a="pv" aria-label="Bulan sebelumnya">‹</button><input type="month" id="bln" aria-label="Pilih bulan dan tahun"><button data-a="nx" aria-label="Bulan berikutnya">›</button><button data-a="mn" aria-label="Menu data">⋯</button></div>
+<div class="tb" id="tabs"></div><div class="tb s" id="sub"></div>
+</header>
+<main>
+<div class="cap">Jumlah unit bulan terpilih</div><div class="sm" id="sum"></div>
+<input id="q" type="search" placeholder="Cari nama, tipe motor, leasing" aria-label="Cari data">
+<div id="list"></div>
+</main>
+<button id="fab" data-a="fab" aria-label="Tambah data">+</button>
+<div id="mod" hidden></div><div id="ts" hidden></div>
+<input type="file" id="fl" accept=".json,application/json" hidden>
+<input type="file" id="ph" accept="image/*" hidden>
+<script>
+(()=>{
+const $=s=>document.querySelector(s),K='dpm_v1',p2=n=>String(n).padStart(2,'0');
+const D0={cash:[],kr:[],tipe:['Mio','Gear','Fazzio','Filano','Lexi','Aerox','NMAX','MX King','R15'],lsg:['FIFGROUP','Adira','BAF','WOM Finance','MUF']};
+let D;try{D=Object.assign({},D0,JSON.parse(localStorage.getItem(K)))}catch(e){D=Object.assign({},D0)}
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate())};
+const S={t:'cash',s:'ACC',q:'',b:today().slice(0,7)};
+let cur,isNew,fn,NL,fs,ph={},dirty={};
+const toast=m=>{const t=$('#ts');t.textContent=m;t.hidden=false;clearTimeout(toast.i);toast.i=setTimeout(()=>t.hidden=true,2400)};
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(D))}catch(e){toast('Data gagal disimpan di HP')}};
+const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.'),rp=n=>n?'Rp '+fmt(n):'-';
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+const tg=s=>s.split('-').reverse().join('/'),uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+const F={
+cash:[['tgl','Tanggal','date'],['tipe','Tipe Motor','tipe'],['nama','Nama','text'],['telp','No. Telp','tel'],['alamat','Alamat','area'],['sales','Nama Sales','text']],
+kr:[['tgl','Tanggal','date'],['pengajuan','Nama Pengajuan','text'],['penjamin','Nama Penjamin','text'],['tipe','Tipe Motor','tipe'],['otr','OTR (Rp)','rp'],['dpg','DP Gross (Rp)','rp'],['dpb','DP Bersih (Rp)','rp'],['angs','Angsuran (Rp)','rp'],['tenor','Tenor (bulan)','num'],['leasing','Nama Leasing','lsg'],['ket','Keterangan Akhir Leasing','area']]};
+
+const P={cash:[['ktp','KTP']],kr:[['ktp1','KTP Pengajuan'],['ktp2','KTP Penjamin'],['kk','KK']]};
+const dbp=(m,f)=>new Promise((ok,no)=>{const r=indexedDB.open('dpm_foto',1);r.onupgradeneeded=()=>r.result.createObjectStore('f');r.onerror=()=>no(r.error);
+r.onsuccess=()=>{const db=r.result,t=db.transaction('f',m),q=f(t.objectStore('f'));t.oncomplete=()=>{db.close();ok(q&&q.result)};t.onerror=t.onabort=()=>{db.close();no(t.error)}}});
+const fGet=k=>dbp('readonly',s=>s.get(k)),fPut=(k,b)=>dbp('readwrite',s=>s.put(b,k)),fDel=k=>dbp('readwrite',s=>s.delete(k));
+const kecil=f=>new Promise((ok,no)=>{const u=URL.createObjectURL(f),i=new Image();i.onerror=()=>no();i.onload=()=>{const s=Math.min(1,1600/Math.max(i.width,i.height)),c=document.createElement('canvas');c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext('2d').drawImage(i,0,0,c.width,c.height);URL.revokeObjectURL(u);c.toBlob(b=>b?ok(b):no(),'image/jpeg',.8)};i.src=u});
+const rincian=o=>{const k=S.t;return (k=='cash'?'*PEMBELIAN CASH*':'*KREDIT '+(o.st||S.s)+'*')+'\n'+F[k].filter(f=>o[f[0]]).map(f=>{const v=o[f[0]],t=f[2];return f[1].replace(/ \(.*\)/,'')+': '+(t=='rp'?rp(v):t=='date'?tg(v):t=='num'?v+' bulan':v)}).join('\n')};
+const upd=s=>{const i=$('#i_'+s);if(!i)return;const b=ph[s];if(i.dataset.u)URL.revokeObjectURL(i.dataset.u);if(b){i.src=i.dataset.u=URL.createObjectURL(b)}else{i.removeAttribute('src');delete i.dataset.u}
+i.hidden=!b;$('#t_'+s).textContent=b?'Foto tersimpan ('+Math.round(b.size/1024)+' KB)':'Belum ada foto';$('#b_'+s).hidden=!b;$('#u_'+s).textContent=b?'Ganti':'Unggah'};
+const commit=()=>{const o=ambil();if(!o.tgl||!(o.nama||o.pengajuan)){toast('Isi tanggal dan nama dulu');return}
+if(isNew){o.id=o.id||uid();if(S.t=='kr')o.st=S.s;isNew=false}
+const ft=new Set(o.ft||[]);Object.keys(dirty).forEach(s=>ph[s]?ft.add(s):ft.delete(s));o.ft=[...ft];put(o);save();
+Object.keys(dirty).forEach(s=>(ph[s]?fPut(o.id+'|'+s,ph[s]):fDel(o.id+'|'+s)).catch(()=>toast('Foto gagal disimpan')));dirty={};
+S.b=o.tgl.slice(0,7);$('#bln').value=S.b;return o};
+function items(){const q=S.q.toLowerCase();
+return D[S.t].filter(x=>x.tgl&&x.tgl.startsWith(S.b)&&(S.t=='cash'||x.st==S.s)&&(!q||[x.nama,x.pengajuan,x.penjamin,x.tipe,x.leasing].join(' ').toLowerCase().includes(q))).sort((a,b)=>b.tgl.localeCompare(a.tgl))}
+
+function card(x){const kr=S.t=='kr',r=(l,v)=>`<div class="r"><small>${l}</small><span>${v||'-'}</span></div>`;
+return `<div class="c ${kr?x.st:''}" data-id="${x.id}"><div class="h"><b>${esc(kr?x.pengajuan:x.nama)}</b><span>${tg(x.tgl)}</span></div><div class="ty">${esc(x.tipe)||'-'}</div>`+
+(kr?r('Penjamin',esc(x.penjamin))+r('Leasing',esc(x.leasing))+r('OTR',rp(x.otr))+r('DP Gross',rp(x.dpg))+r('DP Bersih',rp(x.dpb))+r('Angsuran',x.angs?rp(x.angs)+' × '+(x.tenor||'-')+' bln':'-')+r('Keterangan',esc(x.ket))
+:r('No. Telp',esc(x.telp))+r('Alamat',esc(x.alamat))+r('Sales',esc(x.sales)))+r('Foto',(x.ft||[]).length+' dari '+P[S.t].length)+'</div>'}
+
+function draw(){const inB=x=>x.tgl&&x.tgl.startsWith(S.b),kk=D.kr.filter(inB),
+a=kk.filter(x=>x.st=='ACC').length,j=kk.filter(x=>x.st=='REJECT').length,c=D.cash.filter(inB).length;
+$('#tabs').innerHTML=[['cash','CASH'],['kr','KREDIT']].map(([k,l])=>`<button data-t="${k}"${S.t==k?' class="on"':''}>${l}</button>`).join('');
+$('#sub').innerHTML=S.t=='kr'?[['ACC',a],['REJECT',j]].map(([k,n])=>`<button data-s="${k}"${S.s==k?' class="on"':''}>${k} (${n})</button>`).join(''):'';
+$('#sum').innerHTML=[[c,'Cash'],[a,'Kredit ACC'],[j,'Kredit Reject']].map(([n,l])=>`<div><b>${n}</b><small>${l}</small></div>`).join('');
+const L=items();$('#list').innerHTML=L.length?L.map(card).join(''):`<div class="em">${S.q?'Tidak ada data yang cocok.':'Belum ada data bulan ini. Ketuk + untuk menambah.'}</div>`}
+
+const opts=(l,v)=>{const a=D[l].slice();if(v&&!a.includes(v))a.push(v);return '<option value="">Pilih…</option>'+a.map(o=>`<option${o==v?' selected':''}>${esc(o)}</option>`).join('')+'<option value="+">＋ Tambah baru…</option>'};
+const inp=([k,l,t],v)=>{v=v??'';let h;
+if(t=='tipe'||t=='lsg')h=`<select name="${k}" data-l="${t}">${opts(t,v)}</select>`;
+else if(t=='area')h=`<textarea name="${k}" rows="2">${esc(v)}</textarea>`;
+else if(t=='rp'||t=='num')h=`<input name="${k}" data-n="${t}" inputmode="numeric" autocomplete="off" value="${t=='rp'&&v?fmt(v):esc(v)}">`;
+else h=`<input name="${k}" type="${t}"${t=='tel'?' inputmode="tel"':''} value="${esc(v)}">`;
+return `<label>${l}${h}</label>`};
+
+const mod=h=>{const m=$('#mod');m.innerHTML='<div class="sh">'+h+'</div>';m.hidden=false};
+const cls=()=>{$('#mod').hidden=true;$('#mod').innerHTML=''};
+const ask=(msg,f,lb)=>{fn=f;mod(`<p>${msg}</p><div class="bt"><button class="d" data-a="ya">${lb}</button><button data-a="tutup">Batal</button></div>`)};
+function form(x,n,keep){cur=x;isNew=n;const k=S.t,st=x.st||S.s;
+if(!keep){ph={};dirty={};if(!n)P[k].forEach(([s])=>fGet(x.id+'|'+s).then(b=>{if(b&&!dirty[s]){ph[s]=b;upd(s)}}).catch(()=>{}))}
+mod(`<h3>${n?'Tambah':'Ubah'} ${k=='cash'?'data Cash':'Kredit '+st}</h3><div id="fm">${F[k].map(f=>inp(f,x[f[0]])).join('')}</div><h4>Foto dokumen</h4>${P[k].map(([s,l])=>`<div class="fr"><img id="i_${s}" data-a="lihat" data-k="${s}" alt="" hidden><div><b>${l}</b><small id="t_${s}"></small></div><button data-a="foto" data-k="${s}" id="u_${s}">Unggah</button><button class="d" data-a="fhapus" data-k="${s}" id="b_${s}" hidden>Hapus</button></div>`).join('')}<div class="bt"><button class="p" data-a="simpan">Simpan</button><button class="w" data-a="wa">Kirim ke WhatsApp</button>${n?'':'<button class="d" data-a="hapus">Hapus</button>'}${!n&&k=='kr'?`<button data-a="pindah">Pindah ke ${st=='ACC'?'REJECT':'ACC'}</button>`:''}<button data-a="tutup">Batal</button></div>`);
+P[k].forEach(([s])=>upd(s))}
+const ambil=()=>{document.querySelectorAll('#fm [name]').forEach(e=>cur[e.name]=e.dataset.n?e.value.replace(/\D/g,''):e.value.trim());return cur};
+const put=o=>{const a=D[S.t],i=a.findIndex(y=>y.id==o.id);i<0?a.push(o):a[i]=o};
+const mv=d=>{let[y,m]=S.b.split('-').map(Number);m+=d;if(m<1){m=12;y--}if(m>12){m=1;y++}S.b=y+'-'+p2(m);$('#bln').value=S.b;draw()};
+
+const kirim=async fs=>{try{const f=fs.map(([n,t,m])=>new File([t],n,{type:m}));if(navigator.canShare&&navigator.canShare({files:f})){await navigator.share({files:f});return}}catch(e){if(e.name=='AbortError')return}
+fs.forEach(([n,t,m])=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m}));a.download=n;document.body.appendChild(a);a.click();a.remove()})};
+const csv=()=>{const b=S.b,q=s=>'"'+String(s??'').replace(/"/g,'""')+'"';
+const mk=(k,st)=>'\ufeff'+[[...(st?['Status']:[]),...F[k].map(f=>f[1])],...D[k].filter(x=>x.tgl&&x.tgl.startsWith(b)).sort((a,c)=>a.tgl.localeCompare(c.tgl)).map(x=>[...(st?[x.st]:[]),...F[k].map(f=>x[f[0]]??'')])].map(r=>r.map(q).join(';')).join('\r\n');
+kirim([['penjualan-cash-'+b+'.csv',mk('cash'),'text/csv'],['penjualan-kredit-'+b+'.csv',mk('kr',1),'text/csv']])};
+
+const A={pv:()=>mv(-1),nx:()=>mv(1),tutup:cls,ya:()=>fn&&fn(),
+fab:()=>form({id:uid(),tgl:S.b==today().slice(0,7)?today():S.b+'-01'},true),
+simpan:()=>{if(commit()){cls();draw()}},
+wa:()=>{const o=commit();if(!o)return;const t=rincian(o),n=(o.nama||o.pengajuan).replace(/[\/\\:*?"<>|]/g,'-'),
+f=P[S.t].filter(([s])=>ph[s]).map(([s,l])=>new File([ph[s]],l+' '+n+'.jpg',{type:'image/jpeg'}));cls();draw();
+if(f.length&&navigator.canShare&&navigator.canShare({files:f})){try{navigator.clipboard.writeText(t).catch(()=>{})}catch(e){}
+navigator.share({files:f,text:t}).catch(e=>{if(e.name!='AbortError')toast('Gagal membuka WhatsApp')})}
+else location.href='whatsapp://send?text='+encodeURIComponent(t)},
+foto:d=>{fs=d.k;$('#ph').click()},
+fhapus:d=>{delete ph[d.k];dirty[d.k]=1;upd(d.k)},
+lihat:d=>{const b=ph[d.k];if(b){ambil();mod(`<img class="big" src="${URL.createObjectURL(b)}"><div class="bt"><button data-a="batalopt">Tutup</button></div>`)}},
+hapus:()=>{const id=cur.id,k=S.t;ask('Hapus data ini? Data tidak bisa dikembalikan.',()=>{D[k]=D[k].filter(y=>y.id!=id);P[k].forEach(([s])=>fDel(id+'|'+s).catch(()=>{}));save();cls();draw();toast('Data dihapus')},'Hapus')},
+pindah:()=>{const o=commit();if(!o)return;o.st=o.st=='ACC'?'REJECT':'ACC';put(o);save();cls();draw();toast('Dipindah ke '+o.st)},
+okopt:()=>{const v=$('#nw').value.trim(),[l,n]=NL;if(v){let f=D[l].find(o=>o.toLowerCase()==v.toLowerCase());if(!f){D[l].push(v);f=v;save()}cur[n]=f}form(cur,isNew,1)},
+batalopt:()=>form(cur,isNew,1),
+mn:()=>mod(`<h3>Menu data</h3><p>Bulan terpilih: ${esc($('#bln').value)}. Backup berisi data saja, foto tidak ikut.</p><div class="bt col"><button data-a="csv">Ekspor CSV bulan ini</button><button data-a="bak">Backup semua data (JSON)</button><button data-a="res">Restore dari file backup</button><button data-a="tutup">Tutup</button></div>`),
+csv:()=>{cls();csv()},
+bak:()=>{cls();kirim([['backup-penjualan-'+today()+'.json',JSON.stringify(D),'application/json']])},
+res:()=>{cls();$('#fl').click()}};
+
+document.addEventListener('click',e=>{if(e.target.id=='mod')return cls();
+const t=e.target.closest('[data-a],[data-t],[data-s],.c');if(!t)return;const d=t.dataset;
+if(d.a)A[d.a]&&A[d.a](d);else if(d.t){S.t=d.t;draw()}else if(d.s){S.s=d.s;draw()}
+else{const x=D[S.t].find(y=>y.id==d.id);if(x)form({...x},false)}});
+document.addEventListener('change',e=>{const s=e.target;
+if(s.id=='bln'){if(s.value){S.b=s.value;draw()}}
+else if(s.tagName=='SELECT'&&s.value=='+'){ambil();cur[s.name]='';NL=[s.dataset.l,s.name];
+mod(`<h3>Tambah ${NL[0]=='tipe'?'Tipe Motor':'Nama Leasing'}</h3><label>Nama<input id="nw" autocomplete="off"></label><div class="bt"><button class="p" data-a="okopt">Simpan</button><button data-a="batalopt">Batal</button></div>`);setTimeout(()=>$('#nw').focus(),80)}});
+document.addEventListener('input',e=>{const t=e.target;if(t.dataset&&t.dataset.n){const v=t.value.replace(/\D/g,'');t.value=t.dataset.n=='rp'&&v?fmt(v):v}});
+$('#q').oninput=e=>{S.q=e.target.value;draw()};
+$('#fl').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+r.onload=()=>{try{const j=JSON.parse(r.result);if(!Array.isArray(j.cash)||!Array.isArray(j.kr))throw 0;
+ask(`Ganti semua data di HP ini dengan backup (${j.cash.length} data Cash, ${j.kr.length} data Kredit)?`,()=>{D=Object.assign({},D0,j);save();cls();draw();toast('Data berhasil dipulihkan')},'Pulihkan')}catch(x){toast('File backup tidak valid')}};
+r.readAsText(f);e.target.value=''};
+
+$('#bln').value=S.b;draw();
+$('#ph').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f||!fs)return;try{ph[fs]=await kecil(f);dirty[fs]=1;upd(fs)}catch(x){toast('Foto tidak bisa dibaca')}};
+try{const c=document.createElement('canvas');c.width=c.height=180;const g=c.getContext('2d');g.fillStyle='#10224f';g.fillRect(0,0,180,180);g.font='100px serif';g.textAlign='center';g.textBaseline='middle';g.fillText('🏍️',90,98);$('#ic').href=c.toDataURL('image/png')}catch(e){}
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+})();
+</script>
+</body>
+</html>
